@@ -1,0 +1,9 @@
+{
+    "extends": "airbnb-base",
+    "plugins": [
+        "import"
+    ],
+    "settings": {
+        "indent": ["error", 4]
+    }
+}
