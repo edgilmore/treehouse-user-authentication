@@ -10,7 +10,7 @@
             "name": "Launch Program",
             "program": "${workspaceRoot}\\bin\\www",
             "env": {
-                "env": "development"
+                "NODE_ENV": "development"
             }
         }
     ]
