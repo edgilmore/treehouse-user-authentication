@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const config = require('./config.json');
 // const webpack = require('webpack');
 // const webpackMiddleware = require('webpack-dev-middleware');
 // const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -13,6 +14,17 @@ const users = require('./routes/users');
 const register = require('./routes/register');
 
 const app = express();
+
+// azure documentDB connection
+mongoose.connect(`${config.mongo_database}`);
+// init connection
+const db = mongoose.connection;
+db.collection('bookworm');
+
+// error handler for mongo
+db.on('error', (error) => {
+  console.error(error.message);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
