@@ -16,10 +16,13 @@ const register = require('./routes/register');
 const app = express();
 
 // azure documentDB connection
-mongoose.connect(`${config.mongo_database}`);
+mongoose.connect(`${config.mongo_database}`, null, (error) => {
+  if (error) {
+    throw error;
+  }
+});
 // init connection
 const db = mongoose.connection;
-db.collection('bookworm');
 
 // error handler for mongo
 db.on('error', (error) => {

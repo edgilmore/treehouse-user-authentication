@@ -5,20 +5,20 @@ block content
             h1 Sign Up
     .row
         .col
-            form(action="/register", method="POST")
+            form(method='POST' action='/register')
                 .form-group
                     label(for="UserName") Name:
-                    input.form-control(type="text", id="UserName")
+                    input.form-control(type="text", id="UserName", name="name")
                 .form-group
                     label(for="UserEmail") Email:
-                    input.form-control(type="text", id="UserEmail")
+                    input.form-control(type="text", id="UserEmail", name="email")
                 .form-group
                     label(for="UserFavoriteBook") Favorite Book:
-                    input.form-control(type="text", id="Favorite Book")
+                    input.form-control(type="text", id="Favorite Book", name="favoriteBook")
                 .form-group
                     label(for="UserPassword") Password:
-                    input.form-control(type="password", id="UserPassword")
+                    input.form-control(type="password", id="UserPassword", name="password")
                 .form-group
                     label(for="ConfirmUserPassword") Confirm Password:
-                    input.form-control(type="password", id="ConfirmUserPassword")
+                    input.form-control(type="password", id="ConfirmUserPassword", name="confirmPassword")
                 button.btn.btn-primary(type="submit") Submit
