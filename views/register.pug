@@ -1,1 +1,24 @@
 extends layout
+block content
+    .row
+        .col
+            h1 Sign Up
+    .row
+        .col
+            form(action="/register", method="POST")
+                .form-group
+                    label(for="UserName") Name:
+                    input.form-control(type="text", id="UserName")
+                .form-group
+                    label(for="UserEmail") Email:
+                    input.form-control(type="text", id="UserEmail")
+                .form-group
+                    label(for="UserFavoriteBook") Favorite Book:
+                    input.form-control(type="text", id="Favorite Book")
+                .form-group
+                    label(for="UserPassword") Password:
+                    input.form-control(type="password", id="UserPassword")
+                .form-group
+                    label(for="ConfirmUserPassword") Confirm Password:
+                    input.form-control(type="password", id="ConfirmUserPassword")
+                button.btn.btn-primary(type="submit") Submit

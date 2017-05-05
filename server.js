@@ -4,11 +4,13 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 // const webpack = require('webpack');
 // const webpackMiddleware = require('webpack-dev-middleware');
 // const webpackHotMiddleware = require('webpack-hot-middleware');
 const routes = require('./routes/index');
 const users = require('./routes/users');
+const register = require('./routes/register');
 
 const app = express();
 
@@ -34,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/register', register);
 
 // catch 404 and forward to error handler
 app.use((err, req, res, next) => {
