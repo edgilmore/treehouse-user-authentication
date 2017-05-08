@@ -4,41 +4,42 @@ const User = require('../models/user');
 const router = express.Router();
 
 // GET /register
-router.get('/', (req, res, next) => res.render('register', {
-  title: 'Sign Up',
+router.get('/', (req, res) => res.render('register', {
+    title: 'Sign Up',
 }));
 // POST /register
 router.post('/', (req, res, next) => {
-  if (req.body.email &&
+    if (req.body.email &&
     req.body.name &&
     req.body.favoriteBook &&
     req.body.password &&
     req.body.confirmPassword) {
     // confirm that the user typed the same password twice
-    if (req.body.password !== req.body.confirmPassword) {
-      const err = new Error('Passwords do not match');
-      err.status = 400;
-      return next(err);
-    }
+        if (req.body.password !== req.body.confirmPassword) {
+            const err = new Error('Passwords do not match');
+            err.status = 400;
+            return next(err);
+        }
     // add user to database
     // create object
-    const userData = {
-      email: req.body.email,
-      name: req.body.name,
-      favoriteBook: req.body.favoriteBook,
-      password: req.body.password,
-    };
+        const userData = {
+            email: req.body.email,
+            name: req.body.name,
+            favoriteBook: req.body.favoriteBook,
+            password: req.body.password,
+        };
     // insert object to database
-    return User.create(userData, (error, user) => {
-      if (error) {
-        return next(error);
-      }
-      return res.redirect('/profile');
-    });
-  }
-  const err = new Error('All fields required.');
-  err.status = 400;
-  return next(err);
+        return User.create(userData, (error, user) => {
+            if (error) {
+                return next(error);
+            }
+            req.session.userId = user._id;
+            return res.redirect('/profile');
+        });
+    }
+    const err = new Error('All fields required.');
+    err.status = 400;
+    return next(err);
 });
 
 module.exports = router;
