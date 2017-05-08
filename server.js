@@ -92,11 +92,11 @@ app.use((err, req, res, next) => {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use((error, req, res) => {
-        res.status(error.statusCode || 500);
+    app.use((req, res) => {
+        res.status(res.statusCode || 500);
         res.render('error', {
-            message: error.message,
-            error,
+            message: res.message,
+            error: res,
         });
     });
 } else {
