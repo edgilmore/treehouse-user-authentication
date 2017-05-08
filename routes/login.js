@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Get Login Page
 router.get('/', (req, res) => res.render('login', {
-  Title: 'Log In',
+    Title: 'Log In',
 }));
 
 // Post Login Page

@@ -20,40 +20,40 @@ const app = express();
 
 // azure documentDB connection
 mongoose.connect(`${config.mongo_database}`, null, (error) => {
-  if (error) {
-    throw error;
-  }
+    if (error) {
+        throw error;
+    }
 });
 // init connection
 const db = mongoose.connection;
 
 // error handler for mongo
 db.on('error', (error) => {
-  throw error;
+    throw error;
 });
 
 // add a session store
 const store = new MongoDbStore({
-  uri: `${config.mongo_database}`,
-  collection: 'sessions',
+    uri: `${config.mongo_database}`,
+    collection: 'sessions',
 });
 // store error handler
 store.on('error', (error) => {
-  if (error) {
-    store.clear(() => {
-      throw error;
-    });
-  }
+    if (error) {
+        store.clear(() => {
+            throw error;
+        });
+    }
 });
 // add session management to the server
 app.use(session({
-  secret: 'treehouse authentication',
-  resave: true,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 24 * 24 * 7, // 1 week
-  },
-  store,
+    secret: 'treehouse authentication',
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 24 * 24 * 7, // 1 week
+    },
+    store,
 }));
 
 // view engine setup
@@ -65,14 +65,14 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: false,
+    extended: false,
 }));
 app.use(cookieParser());
 app.use(require('node-sass-middleware')({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: true,
-  sourceMap: true,
+    src: path.join(__dirname, 'public'),
+    dest: path.join(__dirname, 'public'),
+    indentedSyntax: true,
+    sourceMap: true,
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -83,32 +83,32 @@ app.use('/login', login);
 
 // catch 404 and forward to error handler
 app.use((err, req, res, next) => {
-  err.message = 'Not Found';
-  err.status = 404;
-  next(err);
+    err.message = 'Not Found';
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use((error, req, res, next) => {
-    res.status(error.statusCode || 500);
-    res.render('error', {
-      message: error.message,
-      error: error,
+    app.use((error, req, res) => {
+        res.status(error.statusCode || 500);
+        res.render('error', {
+            message: error.message,
+            error,
+        });
     });
-  });
 } else {
   // production error handler
   // no stacktraces leaked to user
-  app.use((req, res) => {
-    res.status(res.statusCode || 500);
-    res.render('error', {
-      message: res.message,
-      error: {},
+    app.use((req, res) => {
+        res.status(res.statusCode || 500);
+        res.render('error', {
+            message: res.message,
+            error: {},
+        });
     });
-  });
 }
 
 module.exports = app;
