@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const config = require('./config.json');
 const session = require('express-session');
 const MongoDbStore = require('connect-mongodb-session')(session);
+const csurf = require('csurf');
 // const webpack = require('webpack');
 // const webpackMiddleware = require('webpack-dev-middleware');
 // const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -18,7 +19,7 @@ const login = require('./routes/login');
 
 const app = express();
 
-// azure documentDB connection
+// azure cosmosdb connection
 mongoose.connect(`${config.mongo_database}`, null, (error) => {
     if (error) {
         throw error;
@@ -37,6 +38,7 @@ const store = new MongoDbStore({
     uri: `${config.mongo_database}`,
     collection: 'sessions',
 });
+
 // store error handler
 store.on('error', (error) => {
     if (error) {
@@ -45,6 +47,7 @@ store.on('error', (error) => {
         });
     }
 });
+
 // add session management to the server
 app.use(session({
     secret: 'treehouse authentication',
@@ -55,6 +58,8 @@ app.use(session({
     },
     store,
 }));
+// setup cookie parser
+app.use(cookieParser());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -67,7 +72,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false,
 }));
-app.use(cookieParser());
+
+// add cross site anti forgery middleware
+const csurfProtection = csurf();
+app.use(csurfProtection);
+
 app.use(require('node-sass-middleware')({
     src: path.join(__dirname, 'public'),
     dest: path.join(__dirname, 'public'),
@@ -76,6 +85,7 @@ app.use(require('node-sass-middleware')({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// register routes
 app.use('/', routes);
 app.use('/users', users);
 app.use('/register', register);
@@ -100,8 +110,8 @@ if (app.get('env') === 'development') {
         });
     });
 } else {
-  // production error handler
-  // no stacktraces leaked to user
+    // production error handler
+    // no stacktraces leaked to user
     app.use((req, res) => {
         res.status(res.statusCode || 500);
         res.render('error', {

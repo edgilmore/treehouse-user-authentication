@@ -5,7 +5,8 @@ const router = express.Router();
 
 // Get Login Page
 router.get('/', (req, res) => res.render('login', {
-    Title: 'Log In',
+    title: 'Log In',
+    csrf: req.csrfToken(),
 }));
 
 // Post Login Page

@@ -6,6 +6,7 @@ const router = express.Router();
 // GET /register
 router.get('/', (req, res) => res.render('register', {
     title: 'Sign Up',
+    csrf: req.csrfToken(),
 }));
 // POST /register
 router.post('/', (req, res, next) => {

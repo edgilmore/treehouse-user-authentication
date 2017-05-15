@@ -6,6 +6,7 @@ block content
     .row
         .col-6.col-xs-12.offset-sm-3
             form(method='POST' action='/register')
+                input(type="text" name="_csrf" value=csrf hidden)
                 .form-group
                     label(for="UserName") Name:
                     input.form-control(type="text", id="UserName", name="name")
