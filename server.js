@@ -85,6 +85,11 @@ app.use(require('node-sass-middleware')({
     sourceMap: true,
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+// make user id availale to templates
+app.use((req, res, next) => {
+    res.locals.currentUser = req.session.userId;
+    next();
+});
 
 // register routes
 app.use('/', routes);
