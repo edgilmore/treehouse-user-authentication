@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema({
 });
 // authenticate input against database objects
 UserSchema.statics.authenticate = function (email, password, callback) {
+    const User = mongoose.model('User', UserSchema);
     User.findOne({ email })
       .exec((error, user) => {
           if (error) {
