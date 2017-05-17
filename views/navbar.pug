@@ -6,11 +6,17 @@ nav.navbar.navbar-toggleable-md.navbar-inverse.bg-inverse
         | Bookworm
     div.collapse.navbar-collapse(id='navbarSupportedContent')
         div.navbar-nav.mr-auto.mt-2.mt-md-0
-            a.nav-item.nav-link.active(href='register') Sign Up
-                span.sr-only
+            if !currentUser
+                a.nav-item.nav-link.active(href='register') Sign Up
+                    span.sr-only
             a.nav-item.nav-link(href='about') About
                 span.sr-only
             a.nav-item.nav-link(href='contact') Contact
             a.nav-item.nav-link(href='profile') My Profile
         .my-2.my-sm-0
-            button.btn.btn-outline-primary(id="login" type="button") Log In
+            if currentUser
+                div
+                    i.material-icons account_circle
+                    button.btn.btn-outline-primary(id="logout" type="button") Log out
+            else
+                button.btn.btn-outline-primary(id="login" type="button") Log In

@@ -17,6 +17,7 @@ const users = require('./routes/users');
 const register = require('./routes/register');
 const login = require('./routes/login');
 const profile = require('./routes/profile');
+const logout = require('./routes/logout');
 
 const app = express();
 
@@ -88,6 +89,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // make user id availale to templates
 app.use((req, res, next) => {
     res.locals.currentUser = req.session.userId;
+    res.end();
     next();
 });
 
@@ -97,6 +99,7 @@ app.use('/users', users);
 app.use('/register', register);
 app.use('/login', login);
 app.use('/profile', profile);
+app.use('/logout', logout);
 
 // catch 404 and forward to error handler
 app.use((err, req, res, next) => {

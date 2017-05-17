@@ -21,10 +21,11 @@ router.post('/', (req, res, next) => {
             req.session.userId = user._id;
             return res.redirect('/profile');
         });
+    } else {
+        const err = new Error('Email and Password fields are required.');
+        err.status = 400;
+        return next(err);
     }
-    const err = new Error('Email and Password fields are required.');
-    err.status = 400;
-    return next(err);
 });
 
 module.exports = router;
