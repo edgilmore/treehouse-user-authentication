@@ -85,11 +85,12 @@ app.use(require('node-sass-middleware')({
     indentedSyntax: true,
     sourceMap: true,
 }));
+
 app.use(express.static(path.join(__dirname, 'public')));
+
 // make user id availale to templates
 app.use((req, res, next) => {
     res.locals.currentUser = req.session.userId;
-    res.end();
     next();
 });
 
