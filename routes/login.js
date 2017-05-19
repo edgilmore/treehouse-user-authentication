@@ -1,10 +1,11 @@
 const express = require('express');
 const User = require('../models/user');
+const mid = require('../middleware/index');
 
 const router = express.Router();
 
 // Get Login Page
-router.get('/', (req, res) => res.render('login', {
+router.get('/', mid.loggedOut, (req, res) => res.render('login', {
     title: 'Log In',
     csrf: req.csrfToken(),
 }));

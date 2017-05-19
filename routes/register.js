@@ -1,10 +1,11 @@
 const express = require('express');
 const User = require('../models/user');
+const mid = require('../middleware/index');
 
 const router = express.Router();
 
 // GET /register
-router.get('/', (req, res) => res.render('register', {
+router.get('/', mid.loggedOut, (req, res) => res.render('register', {
     title: 'Sign Up',
     csrf: req.csrfToken(),
 }));
