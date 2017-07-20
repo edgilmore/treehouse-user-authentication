@@ -24,24 +24,23 @@ const UserSchema = new mongoose.Schema({
     },
 });
 // authenticate input against database objects
-UserSchema.statics.authenticate = function (email, password, callback) {
+UserSchema.statics.authenticate = (email, password, callback) => {
     const User = mongoose.model('User', UserSchema);
     User.findOne({ email })
       .exec((error, user) => {
           if (error) {
-              return callback(error);
+              return callback(error, null);
           } else if (!user) {
               const err = new Error('User not found.');
               err.status = 401;
-              return callback(err);
+              return callback(err, null);
           }
-          bcrypt.compare(password, user.password, (error, result) => {
+          bcrypt.compare(password, user.password, (err, result) => {
               if (result === true) {
                   return callback(null, user);
               }
-              return callback();
+              return callback(err, result);
           });
-          return callback();
       });
 };
 
