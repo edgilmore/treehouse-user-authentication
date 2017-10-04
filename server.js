@@ -22,7 +22,7 @@ const logout = require('./routes/logout');
 const app = express();
 
 // azure cosmosdb connection
-mongoose.connect(`${config.mongo_database}`, null, (error) => {
+mongoose.connect(`${config.mongo_database}`, {}, (error) => {
     if (error) {
         throw error;
     }
